@@ -26,6 +26,7 @@ class QuestionRepository
     {
         if(!$this->validator->isValid($question))
             throw \Exceptions\InvalidQuestionException::invalidLength($question->contentLength());
-        $this->storage->save($question);
+        $questionEntity = new QuestionEntity(null, $question->content(), time());
+        return $this->storage->add($questionEntity);
     }
 }

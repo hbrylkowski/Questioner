@@ -5,6 +5,7 @@ namespace spec;
 use QuestionRepository;
 use Exceptions\InvalidQuestionException;
 use PhpSpec\ObjectBehavior;
+use Prophecy\Argument;
 
 class QuestionRepositorySpec extends ObjectBehavior
 {
@@ -21,8 +22,9 @@ class QuestionRepositorySpec extends ObjectBehavior
     ){
         $validator->isValid($question)->willReturn(true);
         $this->beConstructedWith($validator, $storage);
-        $storage->save($question)->shouldBeCalled();
-        $this->save($question);
+        $question->content()->willReturn("smth");
+        $storage->add(Argument::type(\QuestionEntity::class))->shouldBeCalled();
+        $this->save($question)->shouldReturnAnInstanceOf(\QuestionEntity::class);
     }
 
     function it_should_not_save_valid_question(
@@ -33,7 +35,7 @@ class QuestionRepositorySpec extends ObjectBehavior
         $validator->isValid($question)->willReturn(false);
         $question->contentLength()->willReturn(1);
         $this->beConstructedWith($validator, $storage);
-        $storage->save($question)->shouldNotBeCalled();
+        $storage->add(Argument::type(\QuestionEntity::class))->shouldNotBeCalled();
         $this->shouldThrow(InvalidQuestionException::class)->during('save', [$question]);
     }
 }
