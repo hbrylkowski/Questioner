@@ -1,0 +1,28 @@
+{
+    "name": "hbrylkowski/q-and-a",
+    "description": "Simple Q&A rest JSON API",
+    "type": "project",
+    "require": {
+        "slim/slim": "^3.5"
+    },
+    "require-dev": {
+        "phpspec/phpspec": "^3.0"
+    },
+    "license": "WTFPL",
+    "authors": [
+        {
+            "name": "Hubert Brylkowski",
+            "email": "hubert@brylkowski.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-0": {
+            "": "src"
+        }
+    },
+    "config": {
+        "bin-dir": "bin"
+    }
+}
+
