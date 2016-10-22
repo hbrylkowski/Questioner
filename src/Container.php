@@ -11,7 +11,7 @@ class Container extends \Slim\Container
     {
         switch ($name){
             case "questionRepository":
-                return new QuestionRepository(new QuestionValidator(), new MockStorage());
+                return new QuestionRepository(new QuestionValidator(), new AnswerValidator(), new MockStorage());
                 break;
             case "questionSerializer":
                 return new QuestionSerializer();

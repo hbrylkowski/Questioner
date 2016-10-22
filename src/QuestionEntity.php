@@ -5,18 +5,24 @@ class QuestionEntity
     private $id;
     private $content;
     private $timestamp;
+    /**
+     * @var array
+     */
+    private $answers;
 
     /**
      * QuestionEntity constructor.
      * @param $id
      * @param $content
      * @param $timestamp
+     * @param array $answers
      */
-    public function __construct($id, $content, $timestamp)
+    public function __construct($id, $content, $timestamp, $answers = [])
     {
         $this->id = $id;
         $this->content = $content;
         $this->timestamp = $timestamp;
+        $this->answers = $answers;
     }
 
     public function id():int
@@ -39,6 +45,6 @@ class QuestionEntity
      */
     public function answers()
     {
-        return [];
+        return $this->answers;
     }
 }
