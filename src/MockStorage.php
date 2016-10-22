@@ -43,4 +43,24 @@ class MockStorage implements QuestionStorageInterface
             ),
         ];
     }
+
+    public function addAnswer(AnswerEntity $answerEntity): AnswerEntity
+    {
+        return new AnswerEntity(
+            rand(1,60),
+            $answerEntity->questionId(),
+            $answerEntity->content(),
+            1458302958
+        );
+    }
+
+    public function questionWithIdExists($questionId): bool
+    {
+        // TODO: Implement questionWithIdExists() method.
+    }
+
+    public function answersCount($questionId): int
+    {
+        // TODO: Implement answersCount() method.
+    }
 }

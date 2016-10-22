@@ -10,4 +10,9 @@ interface QuestionStorageInterface
      */
     public function getAll();
 
+    public function addAnswer(AnswerEntity $answerEntity): AnswerEntity;
+
+    public function questionWithIdExists($questionId):bool;
+    public function answersCount($questionId):int;
+
 }

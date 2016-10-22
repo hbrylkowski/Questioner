@@ -1,5 +1,7 @@
 <?php
 
+use Exceptions\InvalidAnswerException;
+
 class QuestionRepository
 {
     /**
@@ -10,16 +12,22 @@ class QuestionRepository
      * @var QuestionStorageInterface
      */
     protected $storage;
+    /**
+     * @var AnswerValidator
+     */
+    private $answerValidator;
 
     /**
      * QuestionRepository constructor.
      * @param QuestionValidator $validator
+     * @param AnswerValidator $answerValidator
      * @param QuestionStorageInterface $storage
      */
-    public function __construct(QuestionValidator $validator, QuestionStorageInterface $storage)
+    public function __construct(QuestionValidator $validator, AnswerValidator $answerValidator, QuestionStorageInterface $storage)
     {
         $this->validator = $validator;
         $this->storage = $storage;
+        $this->answerValidator = $answerValidator;
     }
 
     public function save(Question $question)
@@ -38,6 +46,19 @@ class QuestionRepository
     public function findById($id)
     {
         return $this->storage->getById($id);
+    }
+
+    public function addAnswer(Answer $answer)
+    {
+        if(!$this->answerValidator->isValid($answer))
+            throw InvalidAnswerException::invalidLength($answer->contentLength());
+        if(!$this->storage->questionWithIdExists($answer->questionId()))
+            throw InvalidAnswerException::noSuchQuestion($answer->questionId());
+        if($this->storage->answersCount($answer->questionId()) >= 2)
+            throw InvalidAnswerException::questionAlreadyHasAnswers();
+
+        $answerEntity = new AnswerEntity(null, $answer->questionId(), $answer->content(), time());
+        return $this->storage->addAnswer($answerEntity);
     }
 
 }
