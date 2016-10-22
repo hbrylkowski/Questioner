@@ -33,6 +33,7 @@ class RestApiTest extends PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('id', $sampleQuestion);
         $this->assertArrayHasKey('content', $sampleQuestion);
         $this->assertArrayHasKey('createdAt', $sampleQuestion);
+        $this->assertArrayHasKey('answers', $sampleQuestion);
     }
 
     public function testGetNonExisting()
@@ -67,5 +68,27 @@ class RestApiTest extends PHPUnit_Framework_TestCase
             ]
         );
         $this->assertEquals(400, $response->getStatusCode());
+    }
+
+    public function testCreateValidAnswer()
+    {
+        $answer = 'No idea, have you try google?';
+        $idQuestion = 2;
+        $response = $this->client->post('http://localhost/answers?XDEBUG_SESSION_START=PHPSTORM', [
+                'json' => [
+                    'answer' => $answer,
+                    'id_question' => $idQuestion,
+                ],
+                'exceptions' => false,
+            ]
+        );
+        $this->assertEquals(201, $response->getStatusCode());
+
+        $question = json_decode($response->getBody(), true);
+        $sampleAnswer = $question['answers'][0];
+        $this->assertArrayHasKey('id', $sampleAnswer);
+        $this->assertArrayHasKey('content', $sampleAnswer);
+        $this->assertArrayHasKey('createdAt', $sampleAnswer);
+
     }
 }

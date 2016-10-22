@@ -21,7 +21,10 @@ class MockStorage implements QuestionStorageInterface
         return new QuestionEntity(
             rand(0,200),
             "Who was the first president of Poland?",
-            1458312958
+            1458312958,
+            [
+                new AnswerEntity(2,1,'I don\'t know google it or something.', 1458312958),
+            ]
         );
     }
 
@@ -32,12 +35,16 @@ class MockStorage implements QuestionStorageInterface
     {
         return [
             new QuestionEntity(
-                rand(0,200),
+                1,
                 "Who was the first president of Poland?",
-                1458312958
+                1458312958,
+                [
+                    new AnswerEntity(1,1,'I don\'t know google it or something.',1458312958),
+                    new AnswerEntity(2,1,'I don\'t know google it or something.',1458312958),
+                ]
             ),
             new QuestionEntity(
-                rand(201,400),
+                2,
                 "Who was the last president of Poland?",
                 1458302958
             ),
@@ -56,11 +63,15 @@ class MockStorage implements QuestionStorageInterface
 
     public function questionWithIdExists($questionId): bool
     {
-        // TODO: Implement questionWithIdExists() method.
+        return in_array($questionId, [1,2]);
     }
 
     public function answersCount($questionId): int
     {
-        // TODO: Implement answersCount() method.
+        if($questionId === 1)
+            return 2;
+        if($questionId === 2)
+            return 1;
+        return rand(0,2);
     }
 }

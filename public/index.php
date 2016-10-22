@@ -51,4 +51,22 @@ $app->post('/questions', function (Request $request, Response $response) use ($c
     return $response;
 });
 
+$app->post('/answers', function (Request $request, Response $response) use ($container){
+    $body = $request->getParsedBody();
+    if(!isset($body['answer']) || !isset($body['id_question'])){
+        $response = $response->withStatus(400);
+        return $response;
+    }
+    $answer = new Answer($body['answer'], $body['id_question']);
+    try{
+       $container->questionRepository->addAnswer($answer);
+       $questionEntity = $container->questionRepository->findById($body['id_question']);
+    } catch (\Exceptions\InvalidAnswerException $e){
+        return $response->withStatus(400);
+    }
+    $response = $response->withJson($container->questionSerializer->toArray($questionEntity));
+    $response = $response->withStatus(201);
+    return $response;
+});
+
 $app->run();

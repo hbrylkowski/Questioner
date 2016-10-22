@@ -14,7 +14,7 @@ class AnswerEntity
      * @param $content
      * @param $timestamp
      */
-    public function __construct($id, $questionId, $content, $timestamp)
+    public function __construct($id, int $questionId, $content, $timestamp)
     {
         $this->id = $id;
         $this->questionId = $questionId;
@@ -29,7 +29,7 @@ class AnswerEntity
 
     public function questionId():int
     {
-        return $this->id;
+        return $this->questionId;
     }
 
     public function content():string
