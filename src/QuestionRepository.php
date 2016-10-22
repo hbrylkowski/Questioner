@@ -29,4 +29,15 @@ class QuestionRepository
         $questionEntity = new QuestionEntity(null, $question->content(), time());
         return $this->storage->add($questionEntity);
     }
+
+    public function getAll()
+    {
+        return $this->storage->getAll();
+    }
+
+    public function findById($id)
+    {
+        return $this->storage->getById($id);
+    }
+
 }

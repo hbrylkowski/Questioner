@@ -19,7 +19,7 @@ class QuestionEntity
         $this->timestamp = $timestamp;
     }
 
-    public function getId():int
+    public function id():int
     {
         return $this->id;
     }

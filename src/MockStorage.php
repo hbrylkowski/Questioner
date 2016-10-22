@@ -14,6 +14,10 @@ class MockStorage implements QuestionStorageInterface
 
     public function getById(int $id): QuestionEntity
     {
+        if($id === 404){
+            throw new \Exceptions\QuestionNotFound();
+        }
+
         return new QuestionEntity(
             rand(0,200),
             "Who was the first president of Poland?",
@@ -26,6 +30,17 @@ class MockStorage implements QuestionStorageInterface
      */
     public function getAll()
     {
-        // TODO: Implement getAll() method.
+        return [
+            new QuestionEntity(
+                rand(0,200),
+                "Who was the first president of Poland?",
+                1458312958
+            ),
+            new QuestionEntity(
+                rand(201,400),
+                "Who was the last president of Poland?",
+                1458302958
+            ),
+        ];
     }
 }

@@ -6,7 +6,7 @@ use QuestionValidator;
 
 class InvalidQuestionException extends QuestionerException
 {
-    const MESSAGE = 'Question length should be between %i and %i, and it is %i';
+    const MESSAGE = 'Question length should be between %s and %s, and it is %s';
 
     public static function invalidLength($actualLength)
     {

@@ -6,7 +6,9 @@
         "slim/slim": "^3.5"
     },
     "require-dev": {
-        "phpspec/phpspec": "^3.0"
+        "phpspec/phpspec": "^3.0",
+        "phpunit/phpunit": "^5.6",
+        "guzzlehttp/guzzle": "^6.2"
     },
     "license": "WTFPL",
     "authors": [
@@ -25,4 +27,3 @@
         "bin-dir": "bin"
     }
 }
-
