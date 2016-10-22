@@ -74,7 +74,7 @@ class RestApiTest extends PHPUnit_Framework_TestCase
     {
         $answer = 'No idea, have you try google?';
         $idQuestion = 2;
-        $response = $this->client->post('http://localhost/answers?XDEBUG_SESSION_START=PHPSTORM', [
+        $response = $this->client->post('http://localhost/answers', [
                 'json' => [
                     'answer' => $answer,
                     'id_question' => $idQuestion,
@@ -89,6 +89,20 @@ class RestApiTest extends PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('id', $sampleAnswer);
         $this->assertArrayHasKey('content', $sampleAnswer);
         $this->assertArrayHasKey('createdAt', $sampleAnswer);
+    }
 
+    public function testCreateInvalidAnswer()
+    {
+        $answer = 'a';
+        $idQuestion = 2;
+        $response = $this->client->post('http://localhost/answers', [
+                'json' => [
+                    'answer' => $answer,
+                    'id_question' => $idQuestion,
+                ],
+                'exceptions' => false,
+            ]
+        );
+        $this->assertEquals(400, $response->getStatusCode());
     }
 }
