@@ -6,17 +6,17 @@ use Slim\Http\Response;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$container = new \Container();
 $config = [
     'settings' => [
         'displayErrorDetails' => true,
     ],
 ];
-$app = new \Slim\App($config);
+$container = new \Container($config);
+$app = new \Slim\App($container);
 
-$app->get('/questions', function (Request $request, Response $response) use ($container){
-    $questions = $container->questionRepository->getAll();
-    $serializer = $container->questionSerializer;
+$app->get('/questions', function (Request $request, Response $response){
+    $questions = $this->questionRepository->getAll();
+    $serializer = $this->questionSerializer;
     $serializedQuestions = [];
     foreach ($questions as $question) {
         $serializedQuestions[] = $serializer->toArray($question);
@@ -25,18 +25,18 @@ $app->get('/questions', function (Request $request, Response $response) use ($co
     return $response;
 });
 
-$app->get('/questions/{id}', function (Request $request, Response $response) use ($container){
+$app->get('/questions/{id}', function (Request $request, Response $response){
     try{
-        $question = $container->questionRepository->findById($request->getAttribute('id'));
+        $question = $this->questionRepository->findById($request->getAttribute('id'));
     } catch (\Exceptions\QuestionerException $e){
         throw new \Slim\Exception\NotFoundException($request, $response);
     }
-    $serializer = $container->questionSerializer;
+    $serializer = $this->questionSerializer;
     return $response->withJson($serializer->toArray($question));
 });
 
 
-$app->post('/questions', function (Request $request, Response $response) use ($container){
+$app->post('/questions', function (Request $request, Response $response){
     $body = $request->getParsedBody();
     if(!isset($body['question'])){
         $response = $response->withStatus(400);
@@ -44,16 +44,16 @@ $app->post('/questions', function (Request $request, Response $response) use ($c
     }
     $question = new Question($body['question']);
     try{
-        $questionEntity = $container->questionRepository->save($question);
+        $questionEntity = $this->questionRepository->save($question);
     } catch (\Exceptions\InvalidQuestionException $e){
         return $response->withStatus(400);
     }
-    $response = $response->withJson($container->questionSerializer->toArray($questionEntity));
+    $response = $response->withJson($this->questionSerializer->toArray($questionEntity));
     $response = $response->withStatus(201);
     return $response;
 });
 
-$app->post('/answers', function (Request $request, Response $response) use ($container){
+$app->post('/answers', function (Request $request, Response $response){
     $body = $request->getParsedBody();
     if(!isset($body['answer']) || !isset($body['id_question'])){
         $response = $response->withStatus(400);
@@ -61,12 +61,12 @@ $app->post('/answers', function (Request $request, Response $response) use ($con
     }
     $answer = new Answer($body['answer'], $body['id_question']);
     try{
-       $container->questionRepository->addAnswer($answer);
-       $questionEntity = $container->questionRepository->findById($body['id_question']);
+        $this->questionRepository->addAnswer($answer);
+       $questionEntity = $this->questionRepository->findById($body['id_question']);
     } catch (\Exceptions\InvalidAnswerException $e){
         return $response->withStatus(400);
     }
-    $response = $response->withJson($container->questionSerializer->toArray($questionEntity));
+    $response = $response->withJson($this->questionSerializer->toArray($questionEntity));
     $response = $response->withStatus(201);
     return $response;
 });
