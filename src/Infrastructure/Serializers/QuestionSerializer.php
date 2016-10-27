@@ -6,7 +6,7 @@ use Infrastructure\Entities\QuestionEntity;
 
 class QuestionSerializer
 {
-    public function toArray(QuestionEntity $questionEntity)
+    public function toArray(QuestionEntity $questionEntity):array
     {
         $answers = [];
         foreach ($questionEntity->answers() as $answer) {

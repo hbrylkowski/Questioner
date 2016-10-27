@@ -16,7 +16,7 @@ class AnswerEntity
      * @param $content
      * @param $timestamp
      */
-    public function __construct($id, int $questionId, $content, $timestamp)
+    public function __construct($id, int $questionId, string $content, int $timestamp)
     {
         $this->id = $id;
         $this->questionId = $questionId;

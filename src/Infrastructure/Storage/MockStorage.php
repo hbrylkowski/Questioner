@@ -37,7 +37,7 @@ class MockStorage implements QuestionStorageInterface
     /**
      * @return QuestionEntity[]
      */
-    public function getAll()
+    public function getAll():array
     {
         return [
             new QuestionEntity(

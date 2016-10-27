@@ -13,7 +13,7 @@ interface QuestionStorageInterface
     /**
      * @return QuestionEntity[]
      */
-    public function getAll();
+    public function getAll():array;
 
     public function addAnswer(AnswerEntity $answerEntity): AnswerEntity;
 

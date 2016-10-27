@@ -12,7 +12,7 @@ class Answer
      * @param $content
      * @param $questionId
      */
-    public function __construct($content, $questionId)
+    public function __construct(string $content, int $questionId)
     {
         $this->content = $content;
         $this->questionId = $questionId;

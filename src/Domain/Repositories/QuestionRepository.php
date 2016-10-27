@@ -39,7 +39,7 @@ class QuestionRepository
         $this->answerValidator = $answerValidator;
     }
 
-    public function save(Question $question)
+    public function save(Question $question):QuestionEntity
     {
         if(!$this->validator->isValid($question))
             throw \Exceptions\InvalidQuestionException::invalidLength($question->contentLength());
@@ -47,17 +47,20 @@ class QuestionRepository
         return $this->storage->add($questionEntity);
     }
 
-    public function getAll()
+    /**
+     * @return QuestionEntity[]
+     */
+    public function getAll():array
     {
         return $this->storage->getAll();
     }
 
-    public function findById($id)
+    public function findById($id):QuestionEntity
     {
         return $this->storage->getById($id);
     }
 
-    public function addAnswer(Answer $answer)
+    public function addAnswer(Answer $answer):AnswerEntity
     {
         if(!$this->answerValidator->isValid($answer))
             throw InvalidAnswerException::invalidLength($answer->contentLength());

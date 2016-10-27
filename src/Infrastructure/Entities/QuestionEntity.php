@@ -19,7 +19,7 @@ class QuestionEntity
      * @param $timestamp
      * @param array $answers
      */
-    public function __construct($id, $content, $timestamp, $answers = [])
+    public function __construct($id, string $content, int $timestamp, array $answers = [])
     {
         $this->id = $id;
         $this->content = $content;
@@ -45,7 +45,7 @@ class QuestionEntity
     /**
      * @return AnswerEntity[]
      */
-    public function answers()
+    public function answers():array
     {
         return $this->answers;
     }

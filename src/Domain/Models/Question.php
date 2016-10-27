@@ -14,7 +14,7 @@ class Question
      * Question constructor.
      * @param string $content
      */
-    public function __construct($content)
+    public function __construct(string $content)
     {
         $this->content = $content;
     }
