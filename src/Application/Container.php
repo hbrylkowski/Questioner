@@ -1,4 +1,7 @@
 <?php
+
+namespace Application;
+
 use Domain\Repositories\QuestionRepository;
 use Domain\Validators\AnswerValidator;
 use Domain\Validators\QuestionValidator;

@@ -11,7 +11,7 @@ $config = [
         'displayErrorDetails' => true,
     ],
 ];
-$container = new \Container($config);
+$container = new \Application\Container($config);
 $app = new \Slim\App($container);
 
 $app->get('/questions', function (Request $request, Response $response){
