@@ -1,6 +1,9 @@
 <?php
 
 use Exceptions\InvalidAnswerException;
+use Infrastructure\Entities\AnswerEntity;
+use Infrastructure\Entities\QuestionEntity;
+use Infrastructure\Storage\QuestionStorageInterface;
 
 class QuestionRepository
 {

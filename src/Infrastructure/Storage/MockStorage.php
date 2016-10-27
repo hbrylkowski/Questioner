@@ -1,5 +1,11 @@
 <?php
 
+namespace Infrastructure\Storage;
+
+use Exceptions\QuestionNotFound;
+use Infrastructure\Entities\AnswerEntity;
+use Infrastructure\Entities\QuestionEntity;
+
 class MockStorage implements QuestionStorageInterface
 {
 
@@ -15,7 +21,7 @@ class MockStorage implements QuestionStorageInterface
     public function getById(int $id): QuestionEntity
     {
         if($id === 404){
-            throw new \Exceptions\QuestionNotFound();
+            throw new QuestionNotFound();
         }
 
         return new QuestionEntity(

@@ -2,9 +2,10 @@
 
 namespace spec;
 
+use Infrastructure\Entities\AnswerEntity;
+use Infrastructure\Entities\QuestionEntity;
 use QuestionSerializer;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class QuestionSerializerSpec extends ObjectBehavior
 {
@@ -13,7 +14,7 @@ class QuestionSerializerSpec extends ObjectBehavior
         $this->shouldHaveType(QuestionSerializer::class);
     }
 
-    function it_should_correctly_map_to_json(\QuestionEntity $question, \AnswerEntity $answer)
+    function it_should_correctly_map_to_json(QuestionEntity $question, AnswerEntity $answer)
     {
         $question->id()->willReturn(10);
         $question->content()->willReturn('Who was the first president of Poland?');

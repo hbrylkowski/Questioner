@@ -1,8 +1,10 @@
 <?php
 
+use Infrastructure\Entities\QuestionEntity;
+
 class QuestionSerializer
 {
-    public function toArray(\QuestionEntity $questionEntity)
+    public function toArray(QuestionEntity $questionEntity)
     {
         $answers = [];
         foreach ($questionEntity->answers() as $answer) {

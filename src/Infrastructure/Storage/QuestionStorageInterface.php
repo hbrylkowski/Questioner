@@ -1,5 +1,10 @@
 <?php
 
+namespace Infrastructure\Storage;
+
+use Infrastructure\Entities\AnswerEntity;
+use Infrastructure\Entities\QuestionEntity;
+
 interface QuestionStorageInterface
 {
     public function add(QuestionEntity $question):QuestionEntity;

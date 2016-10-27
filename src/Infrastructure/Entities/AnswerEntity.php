@@ -1,5 +1,7 @@
 <?php
 
+namespace Infrastructure\Entities;
+
 class AnswerEntity
 {
     private $id;
