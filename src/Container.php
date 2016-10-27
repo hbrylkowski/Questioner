@@ -1,4 +1,9 @@
 <?php
+use Domain\Repositories\QuestionRepository;
+use Domain\Validators\AnswerValidator;
+use Domain\Validators\QuestionValidator;
+use Infrastructure\Serializers\QuestionSerializer;
+use Infrastructure\Storage\MockStorage;
 
 /**
  * @property QuestionRepository questionRepository

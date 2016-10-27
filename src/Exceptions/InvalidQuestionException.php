@@ -2,7 +2,7 @@
 
 namespace Exceptions;
 
-use QuestionValidator;
+use Domain\Validators\QuestionValidator;
 
 class InvalidQuestionException extends QuestionerException
 {

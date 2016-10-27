@@ -1,5 +1,9 @@
 <?php
 
+namespace Domain\Validators;
+
+use Domain\Models\Answer;
+
 class AnswerValidator
 {
     const MAX_LENGTH = 5000;

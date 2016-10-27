@@ -1,10 +1,10 @@
 <?php
 
-namespace spec;
+namespace spec\Infrastructure\Serializers;
 
 use Infrastructure\Entities\AnswerEntity;
 use Infrastructure\Entities\QuestionEntity;
-use QuestionSerializer;
+use Infrastructure\Serializers\QuestionSerializer;
 use PhpSpec\ObjectBehavior;
 
 class QuestionSerializerSpec extends ObjectBehavior

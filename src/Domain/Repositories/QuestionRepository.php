@@ -1,5 +1,11 @@
 <?php
 
+namespace Domain\Repositories;
+
+use Domain\Models\Answer;
+use Domain\Models\Question;
+use Domain\Validators\AnswerValidator;
+use Domain\Validators\QuestionValidator;
 use Exceptions\InvalidAnswerException;
 use Infrastructure\Entities\AnswerEntity;
 use Infrastructure\Entities\QuestionEntity;

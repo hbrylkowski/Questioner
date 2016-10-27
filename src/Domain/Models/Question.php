@@ -1,5 +1,7 @@
 <?php
 
+namespace Domain\Models;
+
 class Question
 {
 

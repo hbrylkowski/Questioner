@@ -1,8 +1,8 @@
 <?php
 
-namespace spec;
+namespace spec\Domain\Models;
 
-use Question;
+use Domain\Models\Question;
 use PhpSpec\ObjectBehavior;
 
 class QuestionSpec extends ObjectBehavior

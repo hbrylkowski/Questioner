@@ -1,7 +1,12 @@
 <?php
 
-namespace spec;
+namespace spec\Domain\Repositories;
 
+use Domain\Models\Answer;
+use Domain\Models\Question;
+use Domain\Repositories\QuestionRepository;
+use Domain\Validators\AnswerValidator;
+use Domain\Validators\QuestionValidator;
 use Exceptions\InvalidAnswerException;
 use Exceptions\InvalidQuestionException;
 use Infrastructure\Entities\AnswerEntity;
@@ -9,13 +14,12 @@ use Infrastructure\Entities\QuestionEntity;
 use Infrastructure\Storage\QuestionStorageInterface;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use QuestionRepository;
 
 class QuestionRepositorySpec extends ObjectBehavior
 {
     function it_is_initializable(
-        \QuestionValidator $validator,
-        \AnswerValidator $answerValidator,
+        QuestionValidator $validator,
+        AnswerValidator $answerValidator,
         QuestionStorageInterface $storage
     ){
         $this->beConstructedWith($validator, $answerValidator, $storage);
@@ -23,9 +27,9 @@ class QuestionRepositorySpec extends ObjectBehavior
     }
 
     function it_should_save_valid_question(
-        \QuestionValidator $validator,
-        \AnswerValidator $answerValidator,
-        \Question $question,
+        QuestionValidator $validator,
+        AnswerValidator $answerValidator,
+        Question $question,
         QuestionStorageInterface $storage
     ){
         $validator->isValid($question)->willReturn(true);
@@ -37,9 +41,9 @@ class QuestionRepositorySpec extends ObjectBehavior
     }
 
     function it_should_not_save_invalid_question(
-        \AnswerValidator $answerValidator,
-        \QuestionValidator $validator,
-        \Question $question,
+        AnswerValidator $answerValidator,
+        QuestionValidator $validator,
+        Question $question,
         QuestionStorageInterface $storage
     ){
         $validator->isValid($question)->willReturn(false);
@@ -51,10 +55,10 @@ class QuestionRepositorySpec extends ObjectBehavior
     }
 
     function it_should_save_answer_to_question(
-        \Answer $answer,
+        Answer $answer,
         QuestionStorageInterface $storage,
-        \AnswerValidator $answerValidator,
-        \QuestionValidator $questionValidator
+        AnswerValidator $answerValidator,
+        QuestionValidator $questionValidator
     )
     {
         $answerValidator->isValid($answer)->willReturn(true);
@@ -68,10 +72,10 @@ class QuestionRepositorySpec extends ObjectBehavior
     }
 
     function it_should_not_save_invalid_answer_to_question(
-        \Answer $answer,
+        Answer $answer,
         QuestionStorageInterface $storage,
-        \AnswerValidator $answerValidator,
-        \QuestionValidator $questionValidator
+        AnswerValidator $answerValidator,
+        QuestionValidator $questionValidator
     )
     {
         $answerValidator->isValid($answer)->willReturn(false);
@@ -84,10 +88,10 @@ class QuestionRepositorySpec extends ObjectBehavior
     }
 
     function it_should_not_save_answer_to_nonexisting_question(
-        \Answer $answer,
+        Answer $answer,
         QuestionStorageInterface $storage,
-        \AnswerValidator $answerValidator,
-        \QuestionValidator $questionValidator
+        AnswerValidator $answerValidator,
+        QuestionValidator $questionValidator
     )
     {
         $answerValidator->isValid($answer)->willReturn(true);
@@ -101,10 +105,10 @@ class QuestionRepositorySpec extends ObjectBehavior
     }
 
     function it_should_not_save_answer_to_question_with_two_answers(
-        \Answer $answer,
+        Answer $answer,
         QuestionStorageInterface $storage,
-        \AnswerValidator $answerValidator,
-        \QuestionValidator $questionValidator
+        AnswerValidator $answerValidator,
+        QuestionValidator $questionValidator
     )
     {
         $answerValidator->isValid($answer)->willReturn(true);

@@ -1,5 +1,7 @@
 <?php
 
+namespace Infrastructure\Serializers;
+
 use Infrastructure\Entities\QuestionEntity;
 
 class QuestionSerializer

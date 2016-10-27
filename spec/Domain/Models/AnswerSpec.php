@@ -1,7 +1,8 @@
 <?php
 
-namespace spec;
+namespace spec\Domain\Models;
 
+use Domain\Models\Answer;
 use PhpSpec\ObjectBehavior;
 
 class AnswerSpec extends ObjectBehavior
@@ -16,7 +17,7 @@ class AnswerSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType(\Answer::class);
+        $this->shouldHaveType(Answer::class);
     }
 
     public function it_should_have_id()

@@ -14,7 +14,7 @@ class RestApiTest extends PHPUnit_Framework_TestCase
 
     public function testGetAll()
     {
-        $response = $this->client->get('http://localhost/questions');
+        $response = $this->client->get('http://localhost:8888/questions');
 
         $this->assertEquals(200, $response->getStatusCode());
         $dataRetrieved = json_decode($response->getBody(), true);
@@ -26,7 +26,7 @@ class RestApiTest extends PHPUnit_Framework_TestCase
 
     public function testGetOneExisting()
     {
-        $response = $this->client->get('http://localhost/questions/1');
+        $response = $this->client->get('http://localhost:8888/questions/1');
 
         $this->assertEquals(200, $response->getStatusCode());
         $sampleQuestion = json_decode($response->getBody(), true);
@@ -38,14 +38,14 @@ class RestApiTest extends PHPUnit_Framework_TestCase
 
     public function testGetNonExisting()
     {
-        $response = $this->client->get('http://localhost/questions/404', ['exceptions' => false]);
+        $response = $this->client->get('http://localhost:8888/questions/404', ['exceptions' => false]);
         $this->assertEquals(404, $response->getStatusCode());
     }
 
     public function testCreateValidQuestion()
     {
         $questionContent = 'Who was the first president of Poland?';
-        $response = $this->client->post('http://localhost/questions', [
+        $response = $this->client->post('http://localhost:8888/questions', [
                 'json' => ['question' => $questionContent],
                 'exceptions' => false
             ]
@@ -62,7 +62,7 @@ class RestApiTest extends PHPUnit_Framework_TestCase
     public function testCreateInvalidQuestion()
     {
         $questionContent = 'a';
-        $response = $this->client->post('http://localhost/questions', [
+        $response = $this->client->post('http://localhost:8888/questions', [
                 'json' => ['question' => $questionContent],
                 'exceptions' => false
             ]
@@ -74,7 +74,7 @@ class RestApiTest extends PHPUnit_Framework_TestCase
     {
         $answer = 'No idea, have you try google?';
         $idQuestion = 2;
-        $response = $this->client->post('http://localhost/answers', [
+        $response = $this->client->post('http://localhost:8888/answers', [
                 'json' => [
                     'answer' => $answer,
                     'id_question' => $idQuestion,
@@ -95,7 +95,7 @@ class RestApiTest extends PHPUnit_Framework_TestCase
     {
         $answer = 'a';
         $idQuestion = 2;
-        $response = $this->client->post('http://localhost/answers', [
+        $response = $this->client->post('http://localhost:8888/answers', [
                 'json' => [
                     'answer' => $answer,
                     'id_question' => $idQuestion,

@@ -1,4 +1,6 @@
 <?php
+use Domain\Models\Answer;
+use Domain\Models\Question;
 use Slim\Http\Request;
 use Slim\Http\Response;
 

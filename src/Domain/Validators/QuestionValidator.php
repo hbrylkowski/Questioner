@@ -1,5 +1,9 @@
 <?php
 
+namespace Domain\Validators;
+
+use Domain\Models\Question;
+
 class QuestionValidator
 {
     const MAX_LENGTH = 5000;
