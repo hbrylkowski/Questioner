@@ -6,7 +6,7 @@ use Exceptions\QuestionNotFound;
 use Infrastructure\Entities\AnswerEntity;
 use Infrastructure\Entities\QuestionEntity;
 
-class MockStorage implements QuestionStorageInterface
+class MockQuestionStorage implements QuestionStorageInterface
 {
 
     public function add(QuestionEntity $question): QuestionEntity
@@ -57,29 +57,10 @@ class MockStorage implements QuestionStorageInterface
         ];
     }
 
-    public function addAnswer(AnswerEntity $answerEntity): AnswerEntity
-    {
-        return new AnswerEntity(
-            rand(1, 60),
-            $answerEntity->questionId(),
-            $answerEntity->content(),
-            1458302958
-        );
-    }
 
     public function questionWithIdExists($questionId): bool
     {
         return in_array($questionId, [1, 2]);
     }
 
-    public function answersCount($questionId): int
-    {
-        if ($questionId === 1) {
-            return 2;
-        }
-        if ($questionId === 2) {
-            return 1;
-        }
-        return rand(0, 2);
-    }
 }

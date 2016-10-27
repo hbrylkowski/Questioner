@@ -9,6 +9,7 @@ use Domain\Validators\QuestionValidator;
 use Exceptions\InvalidAnswerException;
 use Infrastructure\Entities\AnswerEntity;
 use Infrastructure\Entities\QuestionEntity;
+use Infrastructure\Storage\AnswerStorageInterface;
 use Infrastructure\Storage\QuestionStorageInterface;
 
 class QuestionRepository
@@ -20,26 +21,33 @@ class QuestionRepository
     /**
      * @var QuestionStorageInterface
      */
-    protected $storage;
+    protected $questionStorage;
     /**
      * @var AnswerValidator
      */
     private $answerValidator;
+    /**
+     * @var AnswerStorageInterface
+     */
+    private $answerStorage;
 
     /**
      * QuestionRepository constructor.
      * @param QuestionValidator $validator
      * @param AnswerValidator $answerValidator
-     * @param QuestionStorageInterface $storage
+     * @param QuestionStorageInterface $questionStorage
+     * @param AnswerStorageInterface $answerStorage
      */
     public function __construct(
         QuestionValidator $validator,
         AnswerValidator $answerValidator,
-        QuestionStorageInterface $storage
+        QuestionStorageInterface $questionStorage,
+        AnswerStorageInterface $answerStorage
     ) {
         $this->validator = $validator;
-        $this->storage = $storage;
+        $this->questionStorage = $questionStorage;
         $this->answerValidator = $answerValidator;
+        $this->answerStorage = $answerStorage;
     }
 
     public function save(Question $question): QuestionEntity
@@ -48,7 +56,7 @@ class QuestionRepository
             throw \Exceptions\InvalidQuestionException::invalidLength($question->contentLength());
         }
         $questionEntity = new QuestionEntity(null, $question->content(), time());
-        return $this->storage->add($questionEntity);
+        return $this->questionStorage->add($questionEntity);
     }
 
     /**
@@ -56,12 +64,12 @@ class QuestionRepository
      */
     public function getAll(): array
     {
-        return $this->storage->getAll();
+        return $this->questionStorage->getAll();
     }
 
     public function findById($id): QuestionEntity
     {
-        return $this->storage->getById($id);
+        return $this->questionStorage->getById($id);
     }
 
     public function addAnswer(Answer $answer): AnswerEntity
@@ -69,15 +77,15 @@ class QuestionRepository
         if (!$this->answerValidator->isValid($answer)) {
             throw InvalidAnswerException::invalidLength($answer->contentLength());
         }
-        if (!$this->storage->questionWithIdExists($answer->questionId())) {
+        if (!$this->questionStorage->questionWithIdExists($answer->questionId())) {
             throw InvalidAnswerException::noSuchQuestion($answer->questionId());
         }
-        if ($this->storage->answersCount($answer->questionId()) >= 2) {
+        if ($this->answerStorage->answersCount($answer->questionId()) >= 2) {
             throw InvalidAnswerException::questionAlreadyHasAnswers();
         }
 
         $answerEntity = new AnswerEntity(null, $answer->questionId(), $answer->content(), time());
-        return $this->storage->addAnswer($answerEntity);
+        return $this->answerStorage->add($answerEntity);
     }
 
 }

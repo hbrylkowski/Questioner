@@ -11,6 +11,7 @@ use Exceptions\InvalidAnswerException;
 use Exceptions\InvalidQuestionException;
 use Infrastructure\Entities\AnswerEntity;
 use Infrastructure\Entities\QuestionEntity;
+use Infrastructure\Storage\AnswerStorageInterface;
 use Infrastructure\Storage\QuestionStorageInterface;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -20,9 +21,10 @@ class QuestionRepositorySpec extends ObjectBehavior
     function it_is_initializable(
         QuestionValidator $validator,
         AnswerValidator $answerValidator,
-        QuestionStorageInterface $storage
+        QuestionStorageInterface $questionStorage,
+        AnswerStorageInterface $answerStorage
     ) {
-        $this->beConstructedWith($validator, $answerValidator, $storage);
+        $this->beConstructedWith($validator, $answerValidator, $questionStorage, $answerStorage);
         $this->shouldHaveType(QuestionRepository::class);
     }
 
@@ -30,13 +32,14 @@ class QuestionRepositorySpec extends ObjectBehavior
         QuestionValidator $validator,
         AnswerValidator $answerValidator,
         Question $question,
-        QuestionStorageInterface $storage
+        QuestionStorageInterface $questionStorage,
+        AnswerStorageInterface $answerStorage
     ) {
         $validator->isValid($question)->willReturn(true);
-        $storage->questionWithIdExists(10)->willReturn(true);
-        $this->beConstructedWith($validator, $answerValidator, $storage);
+        $questionStorage->questionWithIdExists(10)->willReturn(true);
+        $this->beConstructedWith($validator, $answerValidator, $questionStorage, $answerStorage);
         $question->content()->willReturn("smth");
-        $storage->add(Argument::type(QuestionEntity::class))->shouldBeCalled();
+        $questionStorage->add(Argument::type(QuestionEntity::class))->shouldBeCalled();
         $this->save($question)->shouldReturnAnInstanceOf(QuestionEntity::class);
     }
 
@@ -44,35 +47,38 @@ class QuestionRepositorySpec extends ObjectBehavior
         AnswerValidator $answerValidator,
         QuestionValidator $validator,
         Question $question,
-        QuestionStorageInterface $storage
+        QuestionStorageInterface $questionStorage,
+        AnswerStorageInterface $answerStorage
     ) {
         $validator->isValid($question)->willReturn(false);
         $question->contentLength()->willReturn(1);
-        $storage->questionWithIdExists(10)->willReturn(true);
-        $this->beConstructedWith($validator, $answerValidator, $storage);
-        $storage->add(Argument::type(QuestionEntity::class))->shouldNotBeCalled();
+        $questionStorage->questionWithIdExists(10)->willReturn(true);
+        $this->beConstructedWith($validator, $answerValidator, $questionStorage, $answerStorage);;
+        $questionStorage->add(Argument::type(QuestionEntity::class))->shouldNotBeCalled();
         $this->shouldThrow(InvalidQuestionException::class)->during('save', [$question]);
     }
 
     function it_should_save_answer_to_question(
         Answer $answer,
-        QuestionStorageInterface $storage,
+        QuestionStorageInterface $questionStorage,
+        AnswerStorageInterface $answerStorage,
         AnswerValidator $answerValidator,
         QuestionValidator $questionValidator
     ) {
         $answerValidator->isValid($answer)->willReturn(true);
         $answer->questionId()->willReturn(10);
-        $storage->questionWithIdExists(10)->willReturn(true);
-        $storage->answersCount(10)->willReturn(0);
+        $questionStorage->questionWithIdExists(10)->willReturn(true);
+        $answerStorage->answersCount(10)->willReturn(0);
         $answer->content()->willReturn('No idea, have you try google?');
-        $this->beConstructedWith($questionValidator, $answerValidator, $storage);
-        $storage->addAnswer(Argument::type(AnswerEntity::class))->shouldBeCalled();
+        $this->beConstructedWith($questionValidator, $answerValidator, $questionStorage, $answerStorage);
+        $answerStorage->add(Argument::type(AnswerEntity::class))->shouldBeCalled();
         $this->addAnswer($answer)->shouldReturnAnInstanceOf(AnswerEntity::class);
     }
 
     function it_should_not_save_invalid_answer_to_question(
         Answer $answer,
-        QuestionStorageInterface $storage,
+        QuestionStorageInterface $questionStorage,
+        AnswerStorageInterface $answerStorage,
         AnswerValidator $answerValidator,
         QuestionValidator $questionValidator
     ) {
@@ -80,30 +86,32 @@ class QuestionRepositorySpec extends ObjectBehavior
         $answer->contentLength()->willReturn(10);
         $answer->questionId()->willReturn(10);
         $answer->content()->willReturn('No idea, have you try google?');
-        $this->beConstructedWith($questionValidator, $answerValidator, $storage);
-        $storage->addAnswer(Argument::type(AnswerEntity::class))->shouldNotBeCalled();
+        $this->beConstructedWith($questionValidator, $answerValidator, $questionStorage, $answerStorage);
+        $questionStorage->add(Argument::type(AnswerEntity::class))->shouldNotBeCalled();
         $this->shouldThrow(InvalidAnswerException::class)->during('addAnswer', [$answer]);
     }
 
     function it_should_not_save_answer_to_nonexisting_question(
         Answer $answer,
-        QuestionStorageInterface $storage,
+        QuestionStorageInterface $questionStorage,
+        AnswerStorageInterface $answerStorage,
         AnswerValidator $answerValidator,
         QuestionValidator $questionValidator
     ) {
         $answerValidator->isValid($answer)->willReturn(true);
         $answer->contentLength()->willReturn(10);
         $answer->questionId()->willReturn(10);
-        $storage->questionWithIdExists(10)->willReturn(false);
+        $questionStorage->questionWithIdExists(10)->willReturn(false);
         $answer->content()->willReturn('No idea, have you try google?');
-        $this->beConstructedWith($questionValidator, $answerValidator, $storage);
-        $storage->addAnswer(Argument::type(AnswerEntity::class))->shouldNotBeCalled();
+        $this->beConstructedWith($questionValidator, $answerValidator, $questionStorage, $answerStorage);
+        $answerStorage->add(Argument::type(AnswerEntity::class))->shouldNotBeCalled();
         $this->shouldThrow(InvalidAnswerException::class)->during('addAnswer', [$answer]);
     }
 
     function it_should_not_save_answer_to_question_with_two_answers(
         Answer $answer,
-        QuestionStorageInterface $storage,
+        QuestionStorageInterface $questionStorage,
+        AnswerStorageInterface $answerStorage,
         AnswerValidator $answerValidator,
         QuestionValidator $questionValidator
     ) {
@@ -111,10 +119,10 @@ class QuestionRepositorySpec extends ObjectBehavior
         $answer->contentLength()->willReturn(10);
         $answer->questionId()->willReturn(10);
         $answer->content()->willReturn('No idea, have you try google?');
-        $storage->answersCount(10)->willReturn(2);
-        $storage->questionWithIdExists(10)->willReturn(true);
-        $this->beConstructedWith($questionValidator, $answerValidator, $storage);
-        $storage->addAnswer(Argument::type(AnswerEntity::class))->shouldNotBeCalled();
+        $answerStorage->answersCount(10)->willReturn(2);
+        $questionStorage->questionWithIdExists(10)->willReturn(true);
+        $this->beConstructedWith($questionValidator, $answerValidator, $questionStorage, $answerStorage);
+        $answerStorage->add(Argument::type(AnswerEntity::class))->shouldNotBeCalled();
         $this->shouldThrow(InvalidAnswerException::class)->during('addAnswer', [$answer]);
     }
 }

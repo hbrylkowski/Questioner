@@ -2,7 +2,6 @@
 
 namespace Infrastructure\Storage;
 
-use Infrastructure\Entities\AnswerEntity;
 use Infrastructure\Entities\QuestionEntity;
 
 interface QuestionStorageInterface
@@ -16,10 +15,5 @@ interface QuestionStorageInterface
      */
     public function getAll(): array;
 
-    public function addAnswer(AnswerEntity $answerEntity): AnswerEntity;
-
     public function questionWithIdExists($questionId): bool;
-
-    public function answersCount($questionId): int;
-
 }

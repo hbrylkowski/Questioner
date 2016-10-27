@@ -3,7 +3,8 @@ use Domain\Repositories\QuestionRepository;
 use Domain\Validators\AnswerValidator;
 use Domain\Validators\QuestionValidator;
 use Infrastructure\Serializers\QuestionSerializer;
-use Infrastructure\Storage\MockStorage;
+use Infrastructure\Storage\MockAnswerStorage;
+use Infrastructure\Storage\MockQuestionStorage;
 
 /**
  * @property QuestionRepository questionRepository
@@ -16,7 +17,12 @@ class Container extends \Slim\Container
     {
         switch ($name) {
             case "questionRepository":
-                return new QuestionRepository(new QuestionValidator(), new AnswerValidator(), new MockStorage());
+                return new QuestionRepository(
+                    new QuestionValidator(),
+                    new AnswerValidator(),
+                    new MockQuestionStorage(),
+                    new MockAnswerStorage()
+                );
                 break;
             case "questionSerializer":
                 return new QuestionSerializer();
