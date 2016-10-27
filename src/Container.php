@@ -14,7 +14,7 @@ class Container extends \Slim\Container
 
     public function __get($name)
     {
-        switch ($name){
+        switch ($name) {
             case "questionRepository":
                 return new QuestionRepository(new QuestionValidator(), new AnswerValidator(), new MockStorage());
                 break;
@@ -24,7 +24,6 @@ class Container extends \Slim\Container
         }
         return parent::__get($name);
     }
-
 
 
 }

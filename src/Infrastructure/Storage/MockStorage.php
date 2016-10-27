@@ -9,10 +9,10 @@ use Infrastructure\Entities\QuestionEntity;
 class MockStorage implements QuestionStorageInterface
 {
 
-    public function add(QuestionEntity $question):QuestionEntity
+    public function add(QuestionEntity $question): QuestionEntity
     {
         return new QuestionEntity(
-            rand(0,200),
+            rand(0, 200),
             $question->content(),
             $question->timestamp()
         );
@@ -20,16 +20,16 @@ class MockStorage implements QuestionStorageInterface
 
     public function getById(int $id): QuestionEntity
     {
-        if($id === 404){
+        if ($id === 404) {
             throw new QuestionNotFound();
         }
 
         return new QuestionEntity(
-            rand(0,200),
+            rand(0, 200),
             "Who was the first president of Poland?",
             1458312958,
             [
-                new AnswerEntity(2,1,'I don\'t know google it or something.', 1458312958),
+                new AnswerEntity(2, 1, 'I don\'t know google it or something.', 1458312958),
             ]
         );
     }
@@ -37,7 +37,7 @@ class MockStorage implements QuestionStorageInterface
     /**
      * @return QuestionEntity[]
      */
-    public function getAll():array
+    public function getAll(): array
     {
         return [
             new QuestionEntity(
@@ -45,8 +45,8 @@ class MockStorage implements QuestionStorageInterface
                 "Who was the first president of Poland?",
                 1458312958,
                 [
-                    new AnswerEntity(1,1,'I don\'t know google it or something.',1458312958),
-                    new AnswerEntity(2,1,'I don\'t know google it or something.',1458312958),
+                    new AnswerEntity(1, 1, 'I don\'t know google it or something.', 1458312958),
+                    new AnswerEntity(2, 1, 'I don\'t know google it or something.', 1458312958),
                 ]
             ),
             new QuestionEntity(
@@ -60,7 +60,7 @@ class MockStorage implements QuestionStorageInterface
     public function addAnswer(AnswerEntity $answerEntity): AnswerEntity
     {
         return new AnswerEntity(
-            rand(1,60),
+            rand(1, 60),
             $answerEntity->questionId(),
             $answerEntity->content(),
             1458302958
@@ -69,15 +69,17 @@ class MockStorage implements QuestionStorageInterface
 
     public function questionWithIdExists($questionId): bool
     {
-        return in_array($questionId, [1,2]);
+        return in_array($questionId, [1, 2]);
     }
 
     public function answersCount($questionId): int
     {
-        if($questionId === 1)
+        if ($questionId === 1) {
             return 2;
-        if($questionId === 2)
+        }
+        if ($questionId === 2) {
             return 1;
-        return rand(0,2);
+        }
+        return rand(0, 2);
     }
 }

@@ -10,7 +10,7 @@ class AnswerValidator
 
     const MIN_LENGTH = 20;
 
-    public function isValid(Answer $answer):bool
+    public function isValid(Answer $answer): bool
     {
         $contentLength = $answer->contentLength();
         return $contentLength >= self::MIN_LENGTH && $contentLength <= self::MAX_LENGTH;

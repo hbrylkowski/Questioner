@@ -32,17 +32,21 @@ class QuestionRepository
      * @param AnswerValidator $answerValidator
      * @param QuestionStorageInterface $storage
      */
-    public function __construct(QuestionValidator $validator, AnswerValidator $answerValidator, QuestionStorageInterface $storage)
-    {
+    public function __construct(
+        QuestionValidator $validator,
+        AnswerValidator $answerValidator,
+        QuestionStorageInterface $storage
+    ) {
         $this->validator = $validator;
         $this->storage = $storage;
         $this->answerValidator = $answerValidator;
     }
 
-    public function save(Question $question):QuestionEntity
+    public function save(Question $question): QuestionEntity
     {
-        if(!$this->validator->isValid($question))
+        if (!$this->validator->isValid($question)) {
             throw \Exceptions\InvalidQuestionException::invalidLength($question->contentLength());
+        }
         $questionEntity = new QuestionEntity(null, $question->content(), time());
         return $this->storage->add($questionEntity);
     }
@@ -50,24 +54,27 @@ class QuestionRepository
     /**
      * @return QuestionEntity[]
      */
-    public function getAll():array
+    public function getAll(): array
     {
         return $this->storage->getAll();
     }
 
-    public function findById($id):QuestionEntity
+    public function findById($id): QuestionEntity
     {
         return $this->storage->getById($id);
     }
 
-    public function addAnswer(Answer $answer):AnswerEntity
+    public function addAnswer(Answer $answer): AnswerEntity
     {
-        if(!$this->answerValidator->isValid($answer))
+        if (!$this->answerValidator->isValid($answer)) {
             throw InvalidAnswerException::invalidLength($answer->contentLength());
-        if(!$this->storage->questionWithIdExists($answer->questionId()))
+        }
+        if (!$this->storage->questionWithIdExists($answer->questionId())) {
             throw InvalidAnswerException::noSuchQuestion($answer->questionId());
-        if($this->storage->answersCount($answer->questionId()) >= 2)
+        }
+        if ($this->storage->answersCount($answer->questionId()) >= 2) {
             throw InvalidAnswerException::questionAlreadyHasAnswers();
+        }
 
         $answerEntity = new AnswerEntity(null, $answer->questionId(), $answer->content(), time());
         return $this->storage->addAnswer($answerEntity);

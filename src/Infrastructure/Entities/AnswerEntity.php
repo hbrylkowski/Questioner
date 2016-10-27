@@ -24,22 +24,22 @@ class AnswerEntity
         $this->timestamp = $timestamp;
     }
 
-    public function id():int
+    public function id(): int
     {
         return $this->id;
     }
 
-    public function questionId():int
+    public function questionId(): int
     {
         return $this->questionId;
     }
 
-    public function content():string
+    public function content(): string
     {
         return $this->content;
     }
 
-    public function timestamp():int
+    public function timestamp(): int
     {
         return $this->timestamp;
     }

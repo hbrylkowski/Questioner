@@ -27,17 +27,17 @@ class QuestionEntity
         $this->answers = $answers;
     }
 
-    public function id():int
+    public function id(): int
     {
         return $this->id;
     }
 
-    public function content():string
+    public function content(): string
     {
         return $this->content;
     }
 
-    public function timestamp():int
+    public function timestamp(): int
     {
         return $this->timestamp;
     }
@@ -45,7 +45,7 @@ class QuestionEntity
     /**
      * @return AnswerEntity[]
      */
-    public function answers():array
+    public function answers(): array
     {
         return $this->answers;
     }

@@ -10,17 +10,18 @@ class InvalidAnswerException extends QuestionerException
     const MESSAGE_NO_QUESTION = 'Question with id: %s does not exist';
     const MESSAGE_TOO_MANY_ANSWERS = 'Question already have two answers';
 
-    public static function invalidLength(int $actualLength):self
+    public static function invalidLength(int $actualLength): self
     {
-        return new self(sprintf(self::MESSAGE_LENGTH, AnswerValidator::MIN_LENGTH, AnswerValidator::MAX_LENGTH, $actualLength));
+        return new self(sprintf(self::MESSAGE_LENGTH, AnswerValidator::MIN_LENGTH, AnswerValidator::MAX_LENGTH,
+            $actualLength));
     }
 
-    public static function noSuchQuestion(int $questionId):self
+    public static function noSuchQuestion(int $questionId): self
     {
         return new self(sprintf(self::MESSAGE_NO_QUESTION, $questionId));
     }
 
-    public static function questionAlreadyHasAnswers():self
+    public static function questionAlreadyHasAnswers(): self
     {
         return new self(sprintf(self::MESSAGE_TOO_MANY_ANSWERS));
     }

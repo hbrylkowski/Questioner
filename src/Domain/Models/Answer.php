@@ -21,7 +21,7 @@ class Answer
     /**
      * @return mixed
      */
-    public function content():string
+    public function content(): string
     {
         return $this->content;
     }

@@ -21,7 +21,7 @@ class QuestionRepositorySpec extends ObjectBehavior
         QuestionValidator $validator,
         AnswerValidator $answerValidator,
         QuestionStorageInterface $storage
-    ){
+    ) {
         $this->beConstructedWith($validator, $answerValidator, $storage);
         $this->shouldHaveType(QuestionRepository::class);
     }
@@ -31,7 +31,7 @@ class QuestionRepositorySpec extends ObjectBehavior
         AnswerValidator $answerValidator,
         Question $question,
         QuestionStorageInterface $storage
-    ){
+    ) {
         $validator->isValid($question)->willReturn(true);
         $storage->questionWithIdExists(10)->willReturn(true);
         $this->beConstructedWith($validator, $answerValidator, $storage);
@@ -45,7 +45,7 @@ class QuestionRepositorySpec extends ObjectBehavior
         QuestionValidator $validator,
         Question $question,
         QuestionStorageInterface $storage
-    ){
+    ) {
         $validator->isValid($question)->willReturn(false);
         $question->contentLength()->willReturn(1);
         $storage->questionWithIdExists(10)->willReturn(true);
@@ -59,8 +59,7 @@ class QuestionRepositorySpec extends ObjectBehavior
         QuestionStorageInterface $storage,
         AnswerValidator $answerValidator,
         QuestionValidator $questionValidator
-    )
-    {
+    ) {
         $answerValidator->isValid($answer)->willReturn(true);
         $answer->questionId()->willReturn(10);
         $storage->questionWithIdExists(10)->willReturn(true);
@@ -76,8 +75,7 @@ class QuestionRepositorySpec extends ObjectBehavior
         QuestionStorageInterface $storage,
         AnswerValidator $answerValidator,
         QuestionValidator $questionValidator
-    )
-    {
+    ) {
         $answerValidator->isValid($answer)->willReturn(false);
         $answer->contentLength()->willReturn(10);
         $answer->questionId()->willReturn(10);
@@ -92,8 +90,7 @@ class QuestionRepositorySpec extends ObjectBehavior
         QuestionStorageInterface $storage,
         AnswerValidator $answerValidator,
         QuestionValidator $questionValidator
-    )
-    {
+    ) {
         $answerValidator->isValid($answer)->willReturn(true);
         $answer->contentLength()->willReturn(10);
         $answer->questionId()->willReturn(10);
@@ -109,8 +106,7 @@ class QuestionRepositorySpec extends ObjectBehavior
         QuestionStorageInterface $storage,
         AnswerValidator $answerValidator,
         QuestionValidator $questionValidator
-    )
-    {
+    ) {
         $answerValidator->isValid($answer)->willReturn(true);
         $answer->contentLength()->willReturn(10);
         $answer->questionId()->willReturn(10);
